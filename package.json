@@ -4,6 +4,11 @@
   "description": "The Backend for the chordx application",
   "main": "index.js",
   "scripts": {
+    "push": "npm run push:get-auth && npm run push:git && npm run deploy",
+    "push:git": "git add . -A && git commit -m \"Snapshot on deploy\" && git push --tags origin HEAD:master --force",
+    "live" : "git push live master",
+    "push:get-auth" : "$(aws ecr get-login)",
+    "start": "npm test && node index.js",
     "deploy" : "docker build -t 594668753286.dkr.ecr.us-east-1.amazonaws.com/chordxloadbalancer:latest . && docker push 594668753286.dkr.ecr.us-east-1.amazonaws.com/chordxloadbalancer:latest",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
