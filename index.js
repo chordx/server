@@ -133,6 +133,7 @@ app.use(function(req, res) {
     func.emailer('Some on is accessing default', 'Some one is accessing the default route on the API', function(e) {
         if (e) {
             console.log("Email Sent");
+            console.log("Some on is accessing default");
         } else {
             console.log("Email Failed");
         }
