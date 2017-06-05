@@ -1,0 +1,20 @@
+{
+  "name": "chordx-server",
+  "version": "1.0.0",
+  "description": "The Backend for the chordx application",
+  "main": "index.js",
+  "scripts": {
+    "deploy" : "docker build -t 594668753286.dkr.ecr.us-east-1.amazonaws.com/chordxloadbalancer:latest . && docker push 594668753286.dkr.ecr.us-east-1.amazonaws.com/chordxloadbalancer:latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chordx/server.git"
+  },
+  "author": "ChordxTeam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chordx/server/issues"
+  },
+  "homepage": "https://github.com/chordx/server#readme"
+}
