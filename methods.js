@@ -180,7 +180,8 @@ exports.banUser = function (req, res, next) {
 		});
 };
 exports.registerUser = function (req, res, next) {
-	func.addUsers(req.body, function(err, rows){
+	var api_key = suid(30);
+	func.addUsers(req.body, api_key, function(err, rows){
 		if(err){
 			res.json(err)
 		}else{
