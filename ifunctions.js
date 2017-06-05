@@ -29,47 +29,6 @@ addUsers:function(driver,callback){
  return db.query("INSERT INTO `tbl_users` (`fName`,`lName`,`email`,`username`,`phone`) VALUES (?,?,?,?,?)",[driver.fName, driver.lName, driver.email, driver.username, driver.phone], callback);
 },
 send:function(fcm_id, title_message, body_message, type, data_b, callback){
-	// var data_body = null;
-	// switch(expression) {
- //    case 1:
- //        data_body = {
-	//         'text': data_b->text,
-	//         'img': data_b->img_url
-	//     }
- //        break;
- //    case 2:
- //        data_body = {
-	//         'text': data_b->text,
-	//         'img': data_b->img_url
-	//     }
- //        break;
- //     case 3:
- //        data_body = {
-	//         'text': data_b->text,
-	//         'img': data_b->img_url
-	//     }
- //        break;
- //     case 4:
- //        data_body = {
-	//         'text': data_b->text,
-	//         'img': data_b->img_url
-	//     }
- //        break;
- //    case 5:
- //        data_body = {
-	//         'text': data_b->text,
-	//         'img': data_b->img_url
-	//     }
- //        break;
- //     case 6:
- //        data_body = {
-	//         'text': data_b->text,
-	//         'img': data_b->img_url
-	//     }
- //        break;
- //    default:
- //        code block
-	// }
 	var message = {
 	    to: fcm_id, 
 	    collapse_key: 'likuid_data', 
