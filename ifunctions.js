@@ -24,9 +24,9 @@ Array.prototype.keySort = function(key, desc){
 }
 var ifunctions={
 
-addUsers:function(driver,callback){
+addUsers:function(driver, api_key,callback){
 	console.log(driver);
- return db.query("INSERT INTO `tbl_users` (`fName`,`lName`,`email`,`username`, `api_key`, `phone`) VALUES (?,?,?,?,?,?)",[driver.fName, driver.lName, driver.email, driver.username, driver.phone], callback);
+ return db.query("INSERT INTO `tbl_users` (`fName`,`lName`,`email`,`username`, `api_key`, `phone`) VALUES (?,?,?,?,?,?)",[driver.fName, driver.lName, driver.email, driver.username, api_key, driver.phone], callback);
 },
 send:function(fcm_id, title_message, body_message, type, data_b, callback){
 	var message = {
