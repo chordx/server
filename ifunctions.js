@@ -35,7 +35,7 @@ getChords:function(callback){
 	return db.query("SELECT * from tbl_chords", callback);	
 },
 getUserbyAPIKEY:function(key, callback){
-	return db.query("SELECT user_id, `fName`, `lName`, phone, u.pro_pic FROM tbl_users WHERE api_key=?", key, callback);
+	return db.query("SELECT user_id, `fName`, `lName`, phone, pro_pic FROM tbl_users WHERE api_key=?", key, callback);
 },
 updateFirebase:function(firebase, device_unique, callback){
 	return db.query("UPDATE `tbl_users` SET  `ref_token`=?, `updated_date`=NOW() WHERE `api_key`=?",[firebase, device_unique], callback);
