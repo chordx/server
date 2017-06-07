@@ -76,6 +76,105 @@ MongoClient.connect("mongodb://tanjay:tanusha@ds141950.mlab.com:41950/liquiddriv
     }
 });
 
+app.post('/me/avatar', upload.array('upl', 1), function(req, res, next) {
+    console.log(req)
+    func.getUserbyAPIKEY(req.query.key, function(err, ro) {
+        if (!err && ro.length > 0) {
+            user = ro[0]['user_id'];
+            func.uploadProPic(user, String(req.files[0].key), function(e, r) {
+                console.log(e)
+                if (!e && r.affectedRows > 0) {
+                    var obj = {
+                        'status': "1",
+                        'message': "Pro Pic Updated Successfully!"
+                    };
+                    res.json(obj);
+                } else {
+                    var obj = {
+                        'status': "0",
+                        'message': "Couldn't update the photo"
+                    };
+                    res.json(obj);
+                }
+            });
+        } else {
+            var obj = {
+                'status': "0",
+                'message': "Unauthorized Entry: Please Contact the Admin"
+            };
+            res.json(obj);
+        }
+    });
+});
+
+app.get('/firebase'function(req, res) {
+    func.updateFirebase(req.query.push_ref, req.query.api, function(e, r) {
+        if (!e && r.affectedRows > 0) {
+            var obj = {
+                'key': String(req.query.api),
+                'status': "1",
+                'message': "Device Registered!"
+            };
+            res.json(obj);
+        } else {
+            var obj = {
+                'status': "0",
+                'message': "Failed to Update Push ref!" + e
+            };
+            res.json(obj);
+        }
+    });
+});
+
+
+
+app.get('/send', function(req, res) {
+    func.getUserbyAPIKEY(req.query.key, function(err, ro) {
+        if (!err && ro.length) {
+            user = ro[0]['user_id'];
+            console.log(user + " " + req.params.id)
+            data = {
+                'mode': '1',
+                'ride_id': ro[0]['user_id'];
+                'message': ro[0]['fName'] + " " + ro[0]['lName'] + ", Request a song).",
+                'name': ro[0]['fName'] + " " + ro[0]['lName'],
+                'phone': ro[0]['phone'],
+                'pro_pic': ro[0]['pro_pic']
+            };
+            title = "Trip Cancelled!";
+            message = ro[0]['fName'] + " " + ro[0]['lName'] + ", cancelled your request (Vehicle No:";
+            func.send(req.query.fire, title, message, 3, data, function(g) {
+                if (g) {
+                    var obj = {
+                        'status': "1",
+                        'message': "Rider Responded!"
+                    };
+                    res.json(obj);
+                } else {
+                    func.emailer('Some on is accessing error on trip', "Notification is not sent to driver_id " + req.body.driver_id, function(e) {
+                        if (e) {
+                            console.log("Email Sent");
+                        } else {
+                            console.log("Email Failed");
+                        }
+                    });
+                    console.log("sad");
+                    var obj = {
+                        'status': "2",
+                        'message': "Trip Created Not Notified"
+                    };
+                    res.json(obj);
+                }
+            });
+        } else {
+            var obj = {
+                'status': "0",
+                'message': "Couldn't get the status id!"
+            };
+            res.json(obj);
+        }
+    });
+});
 
 
 // app.get('/users/verify/:type/:phone', methods.verifyUser);
@@ -128,6 +227,9 @@ MongoClient.connect("mongodb://tanjay:tanusha@ds141950.mlab.com:41950/liquiddriv
 //     });
 // });
 // app.delete('/users/:id', methods.banUser);
+app.get('/device', function(req, res) {
+    req.query.device
+})
 app.get('/chords', methods.getChords);
 app.post('/login', methods.loginUser);
 app.post('/register', methods.registerUser);

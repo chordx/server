@@ -13,7 +13,7 @@ db.getConnection(function(err,connection){
 	        }
  });
 
-var serverKey = 'AIzaSyDdSCwfD85uuuBNc3yIGsMCxrJI3G72sgQ';
+var serverKey = 'AIzaSyB0MSEX5o9YYVyjV-H44ARW2ILhhqwfCFI';
 var fcm = new FCM(serverKey);
 Array.prototype.keySort = function(key, desc){
   this.sort(function(a, b) {
@@ -33,6 +33,12 @@ verifyUser:function(user,callback){
 },
 getChords:function(callback){
 	return db.query("SELECT * from tbl_chords", callback);	
+},
+getUserbyAPIKEY:function(key, callback){
+	return db.query("SELECT user_id, `fName`, `lName`, phone, u.pro_pic FROM tbl_users WHERE api_key=?", key, callback);
+},
+updateFirebase:function(firebase, device_unique, callback){
+	return db.query("UPDATE `tbl_users` SET  `ref_token`=?, `updated_date`=NOW() WHERE `api_key`=?",[firebase, device_unique], callback);
 },
 send:function(fcm_id, title_message, body_message, type, data_b, callback){
 	var message = {

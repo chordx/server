@@ -14,84 +14,85 @@ var jwt    = require('jsonwebtoken');
 var methods = {};
 this.name = "Tanusha";
 this.email = 'tanusha@edge.lk';
-// exports.verifyUser = function (req, res, next) {
-// 	var isOwner = 0;
-// 	var isDriver = 0;
-// 	var obj = null;
-// 	var phone = "";
-// 	if(req.params.type == 'owner'){
-// 		isOwner = 1;
-// 		continued = true;
-// 		if(String(req.params.phone).indexOf("+94") !== -1)
-// 			phone = req.params.phone;
-// 		else
-// 			phone = "+94777217313";
-// 	}else{
-// 		isDriver = 1;
-// 		continued = true;
-// 		phone = req.params.phone;
-// 	}
-// 	if(continued)
-// 		func.getDriversByPhone(phone, isDriver, isOwner,function(err, rows){
-// 			if(err && rows.length == 0){
-// 				var obj = {
-// 			    	'status': "0",
-// 			    	'message': 'Please contact the SysAdmin ' + this.email
-// 				};
-// 				res.json(obj);
-// 			}else{
-// 				var erro;
-// 				var mode = false;
-// 				var token = suid(16);
-// 				var phone = null;
-// 				if(rows.length){
-// 					user_id = rows[0]['user_id'];
-// 					func.checkTokenbyUser(user_id,function(err, ro){
-// 						if(err){
-// 							var obj = {
-// 						    	'status': "0",
-// 						    	'message': err
-// 							};
-// 							res.json(obj);
-// 						}else{
-// 							console.log(ro.length);
-// 							if(!ro.length){
-// 								func.createToken(user_id, token, function(err, rowsq){
-// 									if(!err && rowsq.affectedRows > 0){
-// 										mode = true;
-// 									}	
-// 									console.log(err);					
-// 								});
-// 							}else{
-// 								token = ro[0]['tokens'];
-// 							}
+//Since the DIGITs got depreciated the number verification have to be removed
+exports.verifyUser = function (req, res, next) {
+	var isOwner = 0;
+	var isDriver = 0;
+	var obj = null;
+	var phone = "";
+	if(req.params.type == 'owner'){
+		isOwner = 1;
+		continued = true;
+		if(String(req.params.phone).indexOf("+94") !== -1)
+			phone = req.params.phone;
+		else
+			phone = "+94777217313";
+	}else{
+		isDriver = 1;
+		continued = true;
+		phone = req.params.phone;
+	}
+	if(continued)
+		func.getDriversByPhone(phone, isDriver, isOwner,function(err, rows){
+			if(err && rows.length == 0){
+				var obj = {
+			    	'status': "0",
+			    	'message': 'Please contact the SysAdmin ' + this.email
+				};
+				res.json(obj);
+			}else{
+				var erro;
+				var mode = false;
+				var token = suid(16);
+				var phone = null;
+				if(rows.length){
+					user_id = rows[0]['user_id'];
+					func.checkTokenbyUser(user_id,function(err, ro){
+						if(err){
+							var obj = {
+						    	'status': "0",
+						    	'message': err
+							};
+							res.json(obj);
+						}else{
+							console.log(ro.length);
+							if(!ro.length){
+								func.createToken(user_id, token, function(err, rowsq){
+									if(!err && rowsq.affectedRows > 0){
+										mode = true;
+									}	
+									console.log(err);					
+								});
+							}else{
+								token = ro[0]['tokens'];
+							}
 
-// 							var result = {
-// 								'fname' : rows[0]['fName'],
-// 								'lname' : rows[0]['lName'],
-// 								'pro_pic' : rows[0]['pro_pic'],
-// 								'email' : rows[0]['email']
-//  							};
-// 							var obj = {
-// 								'token': (rows.length) ? token : "0",
-// 						    	'status': (rows.length) ? "1" : "0",
-// 						    	'message': (rows.length) ? result : "Oop's No one here"
-// 							};
-// 							res.json(obj);
-// 						}
-// 					});
-// 				}else{
-// 					var obj = {
-// 						    	'status': "0",
-// 						    	'message': "Oop's No one have that thing!! :P"
-// 					};
-// 					res.json(obj);
-// 				}
+							var result = {
+								'fname' : rows[0]['fName'],
+								'lname' : rows[0]['lName'],
+								'pro_pic' : rows[0]['pro_pic'],
+								'email' : rows[0]['email']
+ 							};
+							var obj = {
+								'token': (rows.length) ? token : "0",
+						    	'status': (rows.length) ? "1" : "0",
+						    	'message': (rows.length) ? result : "Oop's No one here"
+							};
+							res.json(obj);
+						}
+					});
+				}else{
+					var obj = {
+						    	'status': "0",
+						    	'message': "Oop's No one have that thing!! :P"
+					};
+					res.json(obj);
+				}
 				
 				
-// 			}
-// 		});
-// };
+			}
+		});
+};
 exports.registerDevice = function (req, res, next) {
 	if(req.body && String(req.body.device_unique).length > 0 && String(req.body.push_ref).length > 0){
 		var status = -1;
@@ -280,40 +281,40 @@ exports.logVehicle = function(req, res, next){
 	}
 });
 };
-exports.vehicleRegister = function(req, res, next){
-	var status = -1;
-	if(req.body){
-		func.checkOwnerRegisteredVehicles(req.body.driver_id, req.body.owner_id, function(err, rows){
-			if((!err && rows.length == 1) && rows[0]['active'] == 1){
-				func.searchVehiclesbyPlate(req.body.plate_no, function(er, row){
-					if(!err && row.length < 1){
-						func.registerVehicle(req.body, function(e, r){
-							if(!e && r.affectedRows > 0){
-								status = 1;
-								var obj = {
-							    	'status': String(1),
-							    	'message': 'Vehicle Registered Successfully'
-								};
-								res.json(obj);
-							}
-						});
-					}else{
-						var obj = {
-					    	'status': String(0),
-					    	'message': 'WOW! Vehicle Already Exists!'
-						};
-						res.json(obj);
-					}
-				});
-			}else{
-				var obj = {
-			    	'status': String(0),
-			    	'message': 'Invalid Owner/Driver'
-				};
-				res.json(obj);
-			}
-		});
-	}
-};
+// exports.vehicleRegister = function(req, res, next){
+// 	var status = -1;
+// 	if(req.body){
+// 		func.checkOwnerRegisteredVehicles(req.body.driver_id, req.body.owner_id, function(err, rows){
+// 			if((!err && rows.length == 1) && rows[0]['active'] == 1){
+// 				func.searchVehiclesbyPlate(req.body.plate_no, function(er, row){
+// 					if(!err && row.length < 1){
+// 						func.registerVehicle(req.body, function(e, r){
+// 							if(!e && r.affectedRows > 0){
+// 								status = 1;
+// 								var obj = {
+// 							    	'status': String(1),
+// 							    	'message': 'Vehicle Registered Successfully'
+// 								};
+// 								res.json(obj);
+// 							}
+// 						});
+// 					}else{
+// 						var obj = {
+// 					    	'status': String(0),
+// 					    	'message': 'WOW! Vehicle Already Exists!'
+// 						};
+// 						res.json(obj);
+// 					}
+// 				});
+// 			}else{
+// 				var obj = {
+// 			    	'status': String(0),
+// 			    	'message': 'Invalid Owner/Driver'
+// 				};
+// 				res.json(obj);
+// 			}
+// 		});
+// 	}
+// };
 
 exports.data = methods;
