@@ -196,7 +196,7 @@ exports.registerUser = function (req, res, next) {
 
 exports.loginUser = function (req, res, next) {
 	func.verifyUser(req.body, function(err, rows){
-		if(err && rows.length == 0){
+		if(err && rows.length =< 0){
 			var obj = {
 			    'status': '0',
 			    'message': 'Authentication Error'
@@ -205,7 +205,7 @@ exports.loginUser = function (req, res, next) {
 		}else{
 			var obj = {
 			    'status': '1',
-			    'message': 'Insert Successfully'
+			    'message': rows
 			};
 			res.json(obj);
 		}
