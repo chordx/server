@@ -132,10 +132,10 @@ app.get('/send', function(req, res) {
     func.getUserbyAPIKEY(req.query.key, function(err, ro) {
         if (!err && ro.length) {
             user = ro[0]['user_id'];
-            console.log(user + " " + req.params.id)
+            console.log(user + " " + req.params.id);
             data = {
                 'mode': '1',
-                'ride_id': ro[0]['user_id'];
+                'ride_id': ro[0]['user_id'],
                 'message': ro[0]['fName'] + " " + ro[0]['lName'] + ", Request a song).",
                 'name': ro[0]['fName'] + " " + ro[0]['lName'],
                 'phone': ro[0]['phone'],
