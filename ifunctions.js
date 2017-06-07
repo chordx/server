@@ -26,10 +26,10 @@ var ifunctions={
 
 addUsers:function(driver, api_key,callback){
 	console.log(driver);
- return db.query("INSERT INTO `tbl_users` (`fName`,`lName`,`email`,`username`, `api_key`, `phone`) VALUES (?,?,?,?,?,?)",[driver.fName, driver.lName, driver.email, driver.username, api_key, driver.phone], callback);
+ return db.query("INSERT INTO `tbl_users` (`fName`,`lName`,`email`,`username`, `api_key`, `phone`) VALUES (?,?,?,?,?,?)",[driver.first, driver.last, driver.email, driver.username, api_key, driver.phone], callback);
 },
-verifyUser:function(id,callback){ 
-	return db.query("SELECT fName, lName, api_key FROM `tbl_users` WHERE phone=?",[id],callback);
+verifyUser:function(user,callback){ 
+	return db.query("SELECT fName, lName, api_key FROM `tbl_users` WHERE username=? && password=?",[user.username, user.password],callback);
 },
 getChords:function(callback){
 	return db.query("SELECT * from tbl_chords", callback);	

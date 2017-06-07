@@ -130,7 +130,7 @@ MongoClient.connect("mongodb://tanjay:tanusha@ds141950.mlab.com:41950/liquiddriv
 // app.delete('/users/:id', methods.banUser);
 app.get('/chords', methods.getChords);
 app.post('/login', methods.loginUser);
-app.post('/users', methods.registerUser);
+app.post('/register', methods.registerUser);
 app.use(function(req, res) {
     func.emailer('Some on is accessing default', 'Some one is accessing the default route on the API', function(e) {
         if (e) {

@@ -204,7 +204,7 @@ exports.loginUser = function (req, res, next) {
 			res.json(obj);
 		}else{
 			var obj = {
-			    'status': String(rows.affectedRows),
+			    'status': '1',
 			    'message': 'Insert Successfully'
 			};
 			res.json(obj);
