@@ -107,7 +107,7 @@ app.post('/me/avatar', upload.array('upl', 1), function(req, res, next) {
     });
 });
 
-app.get('/firebase'function(req, res) {
+app.get('/firebase', function(req, res) {
     func.updateFirebase(req.query.push_ref, req.query.api, function(e, r) {
         if (!e && r.affectedRows > 0) {
             var obj = {
